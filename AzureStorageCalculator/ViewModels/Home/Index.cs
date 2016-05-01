@@ -9,5 +9,6 @@ namespace AzureStorageCalculator.ViewModels.Home
     public class Index
     {
         public List<AtRestPrice> AtRestPrices { get; set; }
+        public List<OtherPrice> OtherPrices { get; set; }
     }
 }

@@ -38,3 +38,41 @@
             </tr>
         }
 </table>
+
+<table class="table-condensed table-bordered table-striped">
+    <thead>
+        <tr>
+            <td></td>
+            @foreach (var redundancy in Model.OtherPrices.GroupBy(x => x.StorageRedundancy).OrderBy(x => x.Key))
+            {
+                <td colspan="2">@redundancy.Key.Humanize().Transform(To.TitleCase)</td>
+            }
+        </tr>
+        <tr>
+            <td></td>
+            @foreach (var redundancy in Model.OtherPrices.GroupBy(x => x.StorageRedundancy).OrderBy(x => x.Key))
+            {
+                foreach (var temperature in redundancy.GroupBy(x => x.StorageTemperature).OrderBy(x => x.Key))
+                {
+                    <td>@temperature.Key</td>
+                }
+            }
+        </tr>
+    </thead>
+
+    @foreach (var item in Model.OtherPrices.GroupBy(x => x.PriceType).OrderBy(x => x.Key))
+    {
+        <tr>
+            <td>@item.Key.Humanize()</td>
+            @foreach (var redundancy in item.GroupBy(x => x.StorageRedundancy).OrderBy(x => x.Key))
+                {
+                    foreach (var temperature in redundancy.GroupBy(x => x.StorageTemperature).OrderBy(x => x.Key))
+                    {
+                    <td>@temperature.First().Amount.ToString("0.0000")</td>
+                }
+            }
+        </tr>
+    }
+</table>
+
+

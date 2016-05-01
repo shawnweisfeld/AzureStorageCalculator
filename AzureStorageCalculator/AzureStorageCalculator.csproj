@@ -129,6 +129,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AtRestPrice.cs" />
+    <Compile Include="Models\OtherPrice.cs" />
+    <Compile Include="Models\OtherPriceType.cs" />
     <Compile Include="Models\StorageRedundancy.cs" />
     <Compile Include="Models\StorageTemperature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
