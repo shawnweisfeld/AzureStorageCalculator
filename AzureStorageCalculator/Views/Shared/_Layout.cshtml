@@ -26,10 +26,15 @@
         </div>
     </div>
     <div class="container body-content">
+        <div>
+            <a target="_blank" href="https://github.com/shawnweisfeld/AzureStorageCalculator">
+                <img style="position: absolute; top: 0; right: 0; border: 0; z-index:5000" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+            </a>
+        </div>
         @RenderBody()
         <hr />
         <footer>
-            <p>This tool is an estimating tool only. Please consult <a href="https://azure.microsoft.com/en-us/pricing/details/storage/">Azure pricing information</a>. Prices and other terms of purchase are controlled by the agreement you enter with Microsoft, not this tool. While we strive for accuracy the content is believed to be accurate as of generation, this information is subject to change at any time without Notice and should not be interpreted to be a commitment, guarantee, or offer by Microsoft.</p>
+            <p>This tool is an estimating tool only. Please consult <a href="https://azure.microsoft.com/en-us/pricing/details/storage/" target="_blank">Azure pricing information</a>. Prices and other terms of purchase are controlled by the agreement you enter with Microsoft, not this tool. While we strive for accuracy the content is believed to be accurate as of generation, this information is subject to change at any time without Notice and should not be interpreted to be a commitment, guarantee, or offer by Microsoft.</p>
             <p>&copy; @DateTime.Now.Year - Azure Storage Calculator</p>
         </footer>
     </div>
@@ -37,5 +42,16 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+  var appInsights=window.appInsights||function(config){
+    function r(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s=u.createElement(o),i,f;for(s.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",u.getElementsByTagName(o)[0].parentNode.appendChild(s),t.cookie=u.cookie,t.queue=[],i=["Event","Exception","Metric","PageView","Trace"];i.length;)r("track"+i.pop());return r("setAuthenticatedUserContext"),r("clearAuthenticatedUserContext"),config.disableExceptionTracking||(i="onerror",r("_"+i),f=e[i],e[i]=function(config,r,u,e,o){var s=f&&f(config,r,u,e,o);return s!==!0&&t["_"+i](config,r,u,e,o),s}),t
+    }({
+        instrumentationKey:"aa5f9aba-95ac-45b4-b8cf-549f2f462b6e"
+    });
+
+    window.appInsights=appInsights;
+    appInsights.trackPageView();
+    </script>
 </body>
 </html>
