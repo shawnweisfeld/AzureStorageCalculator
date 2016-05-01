@@ -22,3 +22,10 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.table-numbers > tbody > tr > td {
+    text-align:right;
+}
+.table-numbers > thead > tr > th {
+    text-align:center;
+}

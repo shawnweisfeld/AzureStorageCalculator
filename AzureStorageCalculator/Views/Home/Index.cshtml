@@ -1,78 +1,116 @@
 ﻿@model AzureStorageCalculator.ViewModels.Home.Index
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home";
 }
-
-<table class="table-condensed table-bordered table-striped">
+<h2>Retail At rest prices</h2>
+<table class="table-condensed table-bordered table-striped table-numbers">
     <thead>
         <tr>
-            <td></td>
+            <th></th>
             @foreach (var redundancy in Model.AtRestPrices.GroupBy(x => x.StorageRedundancy).OrderBy(x => x.Key))
             {
-                    <td colspan="2">@redundancy.Key.Humanize().Transform(To.TitleCase)</td>
+                    <th colspan="2">@redundancy.Key.Humanize().Transform(To.TitleCase)</th>
             }
         </tr>
         <tr>
-            <td></td>
+            <th></th>
             @foreach (var redundancy in Model.AtRestPrices.GroupBy(x => x.StorageRedundancy).OrderBy(x => x.Key))
             {
                 foreach (var temperature in redundancy.GroupBy(x => x.StorageTemperature).OrderBy(x => x.Key))
                 {
-                    <td>@temperature.Key</td>
+                    <th>@temperature.Key</th>
                 }
             }
         </tr>
     </thead>
-
+    <tbody>
         @foreach (var size in Model.AtRestPrices.GroupBy(x => x.SizeCutoff).OrderBy(x => x.Key))
         {
             <tr>
-                <td>@size.Key.ToString("#,##0,000") GB / Month</td>
+                <th>@size.Key.ToString("N") GB / Month</th>
                 @foreach (var redundancy in size.GroupBy(x => x.StorageRedundancy).OrderBy(x => x.Key))
                 {
                     foreach (var temperature in redundancy.GroupBy(x => x.StorageTemperature).OrderBy(x => x.Key))
                     {
-                        <td>@temperature.First().Amount.ToString("0.0000")</td>
+                        <td>@temperature.First().Amount.ToString("N4")</td>
                     }
                 }
             </tr>
         }
+    </tbody>
 </table>
 
-<table class="table-condensed table-bordered table-striped">
+<h2>Retail transaction prices</h2>
+<table class="table-condensed table-bordered table-striped table-numbers">
     <thead>
         <tr>
-            <td></td>
+            <th></th>
             @foreach (var redundancy in Model.OtherPrices.GroupBy(x => x.StorageRedundancy).OrderBy(x => x.Key))
             {
-                <td colspan="2">@redundancy.Key.Humanize().Transform(To.TitleCase)</td>
+                <th colspan="2">@redundancy.Key.Humanize().Transform(To.TitleCase)</th>
             }
         </tr>
         <tr>
-            <td></td>
+            <th></th>
             @foreach (var redundancy in Model.OtherPrices.GroupBy(x => x.StorageRedundancy).OrderBy(x => x.Key))
             {
                 foreach (var temperature in redundancy.GroupBy(x => x.StorageTemperature).OrderBy(x => x.Key))
                 {
-                    <td>@temperature.Key</td>
+                    <th>@temperature.Key</th>
                 }
             }
         </tr>
     </thead>
-
-    @foreach (var item in Model.OtherPrices.GroupBy(x => x.PriceType).OrderBy(x => x.Key))
-    {
-        <tr>
-            <td>@item.Key.Humanize()</td>
-            @foreach (var redundancy in item.GroupBy(x => x.StorageRedundancy).OrderBy(x => x.Key))
+    <tbody>
+        @foreach (var item in Model.OtherPrices.GroupBy(x => x.PriceType).OrderBy(x => x.Key))
+        {
+            <tr>
+                <th>@item.Key.Humanize()</th>
+                @foreach (var redundancy in item.GroupBy(x => x.StorageRedundancy).OrderBy(x => x.Key))
                 {
                     foreach (var temperature in redundancy.GroupBy(x => x.StorageTemperature).OrderBy(x => x.Key))
                     {
-                    <td>@temperature.First().Amount.ToString("0.0000")</td>
+                        <td>@temperature.First().Amount.ToString("N4")</td>
+                    }
                 }
-            }
-        </tr>
-    }
+            </tr>
+        }
+    </tbody>
 </table>
 
-
+<h2>Assumptions</h2>
+@using (Html.BeginForm("Calculate", "Home", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="StartingStorage">Starting TBs</label>
+        <input type="number" class="form-control" id="StartingStorage" name="StartingStorage" placeholder="">
+        <p class="help-block">i.e. '10' if you have 10 TBs of data to start with</p>
+    </div>
+    <div class="form-group">
+        <label for="MonthlyGrowthStorage">New TBs (per month)</label>
+        <input type="number" class="form-control" id="MonthlyGrowthStorage" name="MonthlyGrowthStorage" placeholder="">
+        <p class="help-block">i.e. '1' for 1 TB new data per month</p>
+    </div>
+    <div class="form-group">
+        <label for="PctStorageRetrieval">% of stored Retrieval Monthly</label>
+        <input type="number" class="form-control" id="PctStorageRetrieval" name="PctStorageRetrieval" placeholder="" step="0.01">
+        <p class="help-block">i.e. '.02' if you plan to download 2% each month</p>
+    </div>
+    <div class="form-group">
+        <label for="MainTransactions"># of main transactions per month (per 10,000)</label>
+        <input type="number" class="form-control" id="MainTransactions" name="MainTransactions" placeholder="">
+        <p class="help-block">100 = 1 million transactions</p>
+    </div>
+    <div class="form-group">
+        <label for="OtherTransactions"># of other transactions per month (per 10,000)</label>
+        <input type="number" class="form-control" id="OtherTransactions" name="OtherTransactions" placeholder="">
+        <p class="help-block">100 = 1 million transactions</p>
+    </div>
+    <div class="form-group">
+        <label for="MonthsToProject"># of months to project</label>
+        <input type="number" class="form-control" id="MonthsToProject" name="MonthsToProject" placeholder="">
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Calculate</button>
+    </div>
+}

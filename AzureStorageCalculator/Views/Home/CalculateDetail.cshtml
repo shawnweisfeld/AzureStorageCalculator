@@ -1,0 +1,38 @@
+﻿@model List<AzureStorageCalculator.ViewModels.Home.CalculateResultDetail>
+<table class="table-condensed table-bordered table-striped table-numbers">
+    <thead>
+        <tr>
+            <th>Month</th>
+            <th>GB Stored</th>
+            <th>GB Written</th>
+            <th>GB Retreived</th>
+            <th>Price Per GB</th>
+            <th>Stored Price</th>
+            <th>Main Transactons</th>
+            <th>Other Transactions</th>
+            <th>Price Retreived</th>
+            <th>Price Writes</th>
+            <th>Price Replication</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderBy(x => x.Month))
+        {
+            <tr>
+                <td>@item.Month.ToString("N0")</td>
+                <td>@item.GbStored.ToString("N0")</td>
+                <td>@item.GbWritten.ToString("N0")</td>
+                <td>@item.GbRetreived.ToString("N0")</td>
+                <td>@item.PricePerGb.ToString("N2")</td>
+                <td>@item.StoredPrice.ToString("N2")</td>
+                <td>@item.MainTransPrice.ToString("N2")</td>
+                <td>@item.OtherTransPrice.ToString("N2")</td>
+                <td>@item.PriceRetreived.ToString("N2")</td>
+                <td>@item.PriceWrites.ToString("N2")</td>
+                <td>@item.PriceReplication.ToString("N2")</td>
+                <td>@item.TotalPrice.ToString("N2")</td>
+            </tr>
+        }
+    </tbody>
+</table>

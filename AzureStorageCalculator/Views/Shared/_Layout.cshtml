@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Azure Storage Calculator</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -16,13 +16,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Azure Storage Calculator", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
             </div>
         </div>
@@ -31,7 +29,8 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>This tool is an estimating tool only. Please consult <a href="https://azure.microsoft.com/en-us/pricing/details/storage/">Azure pricing information</a>. Prices and other terms of purchase are controlled by the agreement you enter with Microsoft, not this tool. While we strive for accuracy the content is believed to be accurate as of generation, this information is subject to change at any time without Notice and should not be interpreted to be a commitment, guarantee, or offer by Microsoft.</p>
+            <p>&copy; @DateTime.Now.Year - Azure Storage Calculator</p>
         </footer>
     </div>
 

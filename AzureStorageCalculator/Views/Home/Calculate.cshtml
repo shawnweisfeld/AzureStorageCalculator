@@ -1,0 +1,68 @@
+﻿@model  AzureStorageCalculator.ViewModels.Home.CalculateResult
+@{
+    ViewBag.Title = "Calculate";
+}
+
+<h2>Results</h2>
+
+<h3>Assumptions</h3>
+<dl class="dl-horizontal">
+    <dt>Starting TB</dt>
+    <dd>@Model.Args.StartingStorage.ToString("N0")</dd>
+    <dt>New TBs (per month)</dt>
+    <dd>@Model.Args.MonthlyGrowthStorage.ToString("N0")</dd>
+    <dt>% of stored Retrieval Monthly</dt>
+    <dd>@Model.Args.PctStorageRetrieval.ToString("P")</dd>
+    <dt># of main transactions per month (per 10,000)</dt>
+    <dd>@Model.Args.MainTransactions.ToString("N0")</dd>
+    <dt># of other transactions per month (per 10,000)</dt>
+    <dd>@Model.Args.OtherTransactions.ToString("N0")</dd>
+    <dt># of months to project</dt>
+    <dd>@Model.Args.MonthsToProject.ToString("N0")</dd>
+</dl>
+
+
+<h3>Summary</h3>
+<table class="table-condensed table-bordered table-striped table-numbers">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Total GB</th>
+            <th>Total Price</th>
+            <th>Average Price Per GB</th>
+            <th>Average Price Per TB</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Summary.OrderBy(x => x.StorageRedundancy).ThenBy(x => x.StorageTemperature))
+        {
+            <tr>
+                <th>@item.StorageRedundancy.Humanize().Transform(To.TitleCase) @item.StorageTemperature</th>
+                <td>@item.TotalGB.ToString("N0")</td>
+                <td>@item.TotalPrice.ToString("N2")</td>
+                <td>@item.AveragePricePerGB.ToString("N4")</td>
+                <td>@item.AveragePricePerTB.ToString("N2")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Details</h3>
+
+<h4>Locally Redundant Cool</h4>
+@Html.Partial("CalculateDetail", Model.LocallyRedundantCool)
+
+<h4>Locally Redundant Hot</h4>
+@Html.Partial("CalculateDetail", Model.LocallyRedundantHot)
+
+<h4>Geographically Redundant Cool</h4>
+@Html.Partial("CalculateDetail", Model.GeographicallyRedundantCool)
+
+<h4>Geographically Redundant Hot</h4>
+@Html.Partial("CalculateDetail", Model.GeographicallyRedundantHot)
+
+<h4>Read Access Geographically Redundant Cool</h4>
+@Html.Partial("CalculateDetail", Model.ReadAccessGeographicallyRedundantCool)
+
+<h4>Read Access Geographically Redundant Hot</h4>
+@Html.Partial("CalculateDetail", Model.ReadAccessGeographicallyRedundantHot)
