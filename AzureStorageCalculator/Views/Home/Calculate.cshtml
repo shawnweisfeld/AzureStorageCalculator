@@ -62,27 +62,27 @@
 
     <!-- Tab panes -->
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="LRSC">
+        <div role="tabpanel" class="tab-pane active fade in" id="LRSC">
             <h4>Locally Redundant Cool</h4>
             @Html.Partial("CalculateDetail", Model.LocallyRedundantCool)
         </div>
-        <div role="tabpanel" class="tab-pane" id="LRSH">
+        <div role="tabpanel" class="tab-pane fade" id="LRSH">
             <h4>Locally Redundant Hot</h4>
             @Html.Partial("CalculateDetail", Model.LocallyRedundantHot)
         </div>
-        <div role="tabpanel" class="tab-pane" id="GRSC">
+        <div role="tabpanel" class="tab-pane fade" id="GRSC">
             <h4>Geographically Redundant Cool</h4>
             @Html.Partial("CalculateDetail", Model.GeographicallyRedundantCool)
         </div>
-        <div role="tabpanel" class="tab-pane" id="GRSH">
+        <div role="tabpanel" class="tab-pane fade" id="GRSH">
             <h4>Geographically Redundant Hot</h4>
             @Html.Partial("CalculateDetail", Model.GeographicallyRedundantHot)
         </div>
-        <div role="tabpanel" class="tab-pane" id="RAGRSC">
+        <div role="tabpanel" class="tab-pane fade" id="RAGRSC">
             <h4>Read Access Geographically Redundant Cool</h4>
             @Html.Partial("CalculateDetail", Model.ReadAccessGeographicallyRedundantCool)
         </div>
-        <div role="tabpanel" class="tab-pane" id="RAGRSH">
+        <div role="tabpanel" class="tab-pane fade" id="RAGRSH">
             <h4>Read Access Geographically Redundant Hot</h4>
             @Html.Partial("CalculateDetail", Model.ReadAccessGeographicallyRedundantHot)
         </div>
