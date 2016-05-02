@@ -47,6 +47,17 @@
     </tbody>
 </table>
 
+@using (Html.BeginForm("Export", "Home", FormMethod.Post))
+{
+        <input type="hidden" id="StartingStorage" name="StartingStorage" value="@Model.Args.StartingStorage" />
+        <input type="hidden" id="MonthlyGrowthStorage" name="MonthlyGrowthStorage" value="@Model.Args.MonthlyGrowthStorage" />
+        <input type="hidden" id="PctStorageRetrieval" name="PctStorageRetrieval" value="@Model.Args.PctStorageRetrieval" />
+        <input type="hidden" id="MainTransactions" name="MainTransactions" value="@Model.Args.MainTransactions" />
+        <input type="hidden" id="OtherTransactions" name="OtherTransactions" value="@Model.Args.OtherTransactions" />
+        <input type="hidden" id="MonthsToProject" name="MonthsToProject" value="@Model.Args.MonthsToProject" />
+        <button type="submit" class="btn btn-default">Export to Excel</button>
+}
+
 <h3>Details</h3>
 
 

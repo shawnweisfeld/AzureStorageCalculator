@@ -1,4 +1,5 @@
 ﻿using AzureStorageCalculator.Models;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,23 +17,55 @@ namespace AzureStorageCalculator.Controllers
             vm.OtherPrices = OtherPrice.GetDefault();
             return View(vm);
         }
-        
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
 
         [HttpPost]
         public ActionResult Calculate(ViewModels.Home.CalculateArgs args)
+        {
+            return View(GetCalculateViewModel(args));
+        }
+
+        [HttpPost]
+        public ActionResult Export(ViewModels.Home.CalculateArgs args)
+        {
+            var vm = GetCalculateViewModel(args);
+            var path = HttpContext.Server.MapPath("~/App_Data/estimate.xlsx");
+
+            using (ExcelPackage package = new ExcelPackage(new System.IO.FileInfo(path)))
+            using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
+            {
+                int row = 1;
+                ExcelWorksheet assumptions = package.Workbook.Worksheets.Add("Assumptions");
+                assumptions.Cells[row++, 1].Value = $"Starting TB";
+                assumptions.Cells[row++, 1].Value = $"New TBs (per month)";
+                assumptions.Cells[row++, 1].Value = $"% of stored Retrieval Monthly";
+                assumptions.Cells[row++, 1].Value = $"# of main transactions per month (per 10,000)";
+                assumptions.Cells[row++, 1].Value = $"# of other transactions per month (per 10,000)";
+                assumptions.Cells[row++, 1].Value = $"# of months to project";
+
+                row = 1;
+                assumptions.Cells[row++, 2].Value = args.StartingStorage;
+                assumptions.Cells[row++, 2].Value = args.MonthlyGrowthStorage;
+                assumptions.Cells[row++, 2].Value = args.PctStorageRetrieval;
+                assumptions.Cells[row++, 2].Value = args.MainTransactions;
+                assumptions.Cells[row++, 2].Value = args.OtherTransactions;
+                assumptions.Cells[row++, 2].Value = args.MonthsToProject;
+
+                assumptions.Cells[1, 1, row - 1, 2].AutoFitColumns();
+
+                ExcelHelper.RenderDetail(package, "Summary", vm.Summary);
+                ExcelHelper.RenderDetail(package, "LRS Cool", vm.LocallyRedundantCool);
+                ExcelHelper.RenderDetail(package, "LRS Hot", vm.LocallyRedundantHot);
+                ExcelHelper.RenderDetail(package, "GRS Cool", vm.GeographicallyRedundantCool);
+                ExcelHelper.RenderDetail(package, "GRS Hot", vm.GeographicallyRedundantHot);
+                ExcelHelper.RenderDetail(package, "RA-GRS Cool", vm.ReadAccessGeographicallyRedundantCool);
+                ExcelHelper.RenderDetail(package, "RA-GRS Hot", vm.ReadAccessGeographicallyRedundantHot);
+
+                package.SaveAs(ms);
+                return File(ms.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "estimate.xlsx");
+            }
+        }
+
+        private ViewModels.Home.CalculateResult GetCalculateViewModel(ViewModels.Home.CalculateArgs args)
         {
             var vm = new ViewModels.Home.CalculateResult();
             vm.Args = args;
@@ -50,10 +83,9 @@ namespace AzureStorageCalculator.Controllers
             vm.Summary.Add(Calculate(StorageRedundancy.GeographicallyRedundant, StorageTemperature.Hot, vm.GeographicallyRedundantHot));
             vm.Summary.Add(Calculate(StorageRedundancy.ReadAccessGeographicallyRedundant, StorageTemperature.Cool, vm.ReadAccessGeographicallyRedundantCool));
             vm.Summary.Add(Calculate(StorageRedundancy.ReadAccessGeographicallyRedundant, StorageTemperature.Hot, vm.ReadAccessGeographicallyRedundantHot));
-
-            return View(vm);
-
+            return vm;
         }
+
 
         private ViewModels.Home.CalculateResultSummary Calculate(StorageRedundancy redundancy, StorageTemperature temperature, List<ViewModels.Home.CalculateResultDetail> details)
         {
