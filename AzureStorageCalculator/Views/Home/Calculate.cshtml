@@ -49,20 +49,42 @@
 
 <h3>Details</h3>
 
-<h4>Locally Redundant Cool</h4>
-@Html.Partial("CalculateDetail", Model.LocallyRedundantCool)
 
-<h4>Locally Redundant Hot</h4>
-@Html.Partial("CalculateDetail", Model.LocallyRedundantHot)
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#LRSC" aria-controls="LRSC" role="tab" data-toggle="tab">LRS Cool</a></li>
+        <li role="presentation"><a href="#LRSH" aria-controls="profile" role="tab" data-toggle="tab">LRS Hot</a></li>
+        <li role="presentation"><a href="#GRSC" aria-controls="profile" role="tab" data-toggle="tab">GRS Cool</a></li>
+        <li role="presentation"><a href="#GRSH" aria-controls="profile" role="tab" data-toggle="tab">GRS Hot</a></li>
+        <li role="presentation"><a href="#RAGRSC" aria-controls="profile" role="tab" data-toggle="tab">RA-GRS Cool</a></li>
+        <li role="presentation"><a href="#RAGRSH" aria-controls="profile" role="tab" data-toggle="tab">RA-GRS Hot</a></li>
+    </ul>
 
-<h4>Geographically Redundant Cool</h4>
-@Html.Partial("CalculateDetail", Model.GeographicallyRedundantCool)
-
-<h4>Geographically Redundant Hot</h4>
-@Html.Partial("CalculateDetail", Model.GeographicallyRedundantHot)
-
-<h4>Read Access Geographically Redundant Cool</h4>
-@Html.Partial("CalculateDetail", Model.ReadAccessGeographicallyRedundantCool)
-
-<h4>Read Access Geographically Redundant Hot</h4>
-@Html.Partial("CalculateDetail", Model.ReadAccessGeographicallyRedundantHot)
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="LRSC">
+            <h4>Locally Redundant Cool</h4>
+            @Html.Partial("CalculateDetail", Model.LocallyRedundantCool)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="LRSH">
+            <h4>Locally Redundant Hot</h4>
+            @Html.Partial("CalculateDetail", Model.LocallyRedundantHot)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="GRSC">
+            <h4>Geographically Redundant Cool</h4>
+            @Html.Partial("CalculateDetail", Model.GeographicallyRedundantCool)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="GRSH">
+            <h4>Geographically Redundant Hot</h4>
+            @Html.Partial("CalculateDetail", Model.GeographicallyRedundantHot)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="RAGRSC">
+            <h4>Read Access Geographically Redundant Cool</h4>
+            @Html.Partial("CalculateDetail", Model.ReadAccessGeographicallyRedundantCool)
+        </div>
+        <div role="tabpanel" class="tab-pane" id="RAGRSH">
+            <h4>Read Access Geographically Redundant Hot</h4>
+            @Html.Partial("CalculateDetail", Model.ReadAccessGeographicallyRedundantHot)
+        </div>
+    </div>
+</div>

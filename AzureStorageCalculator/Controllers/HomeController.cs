@@ -122,7 +122,7 @@ namespace AzureStorageCalculator.Controllers
             {
                 price = atRestPrices.Where(x => x.StorageRedundancy == redundancy
                                                        && x.StorageTemperature == temperature)
-                                    .OrderByDescending(x => x.Amount)
+                                    .OrderBy(x => x.Amount)
                                     .FirstOrDefault();
             }
 
